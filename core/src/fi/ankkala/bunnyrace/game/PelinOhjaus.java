@@ -8,6 +8,8 @@ public interface PelinOhjaus {
 	void setTaakse(boolean taakse);
 	boolean isEteen();
 	boolean isTaakse();
+	boolean isLevelComplete();
+	boolean isLevelFailed();
 	void kaytaTurbo();
 	void toggleDebug();
 	void togglePause();

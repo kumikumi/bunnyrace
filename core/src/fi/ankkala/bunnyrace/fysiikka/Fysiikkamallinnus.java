@@ -58,12 +58,12 @@ public class Fysiikkamallinnus implements Piirrettava{
 
 	public void step() {
 		this.pelimaailma.world.step(1 / 60f, 6, 2);
-
+	}
+	
+	public void liikutaPelihahmoa() {
 		poimiKerattavat();
 		ajaAutolla();
-
 		lopetaPeliTarvittaessa();
-
 	}
 
 	private void lopetaPeliTarvittaessa() {

@@ -1,5 +1,6 @@
 package fi.ankkala.bunnyrace.gui.valikko;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -7,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
+import fi.ankkala.bunnyrace.fileio.AssetLoader;
 
 public class Credits implements Valikko {
 	//private BitmapFont font;
@@ -25,21 +28,21 @@ public class Credits implements Valikko {
 	private int rivi;
 
 	public Credits() {
-		this.tausta = new Texture(Gdx.files.internal("data/tausta.png"));
+		this.tausta = new Texture(AssetLoader.load("tausta.png"));
 		this.libgdxlogo = new Texture(
-				Gdx.files.internal("data/libgdx-logo.png"));
+				AssetLoader.load("libgdx-logo.png"));
 		//this.font = new BitmapFont();
 		//this.font = new BitmapFont(Gdx.files.internal("data/fontti.fnt"));
 
 		
 		//Texture texture = new Texture(Gdx.files.internal("data/defaultfont.png"), true);
-		Texture texture = new Texture(Gdx.files.internal("data/defaultfont.png"));
+		Texture texture = new Texture(AssetLoader.load("defaultfont.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		//texture.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
 
-		this.font2 = new BitmapFont(Gdx.files.internal("data/defaultfont.fnt"), new TextureRegion(texture), false);
+		this.font2 = new BitmapFont(AssetLoader.load("defaultfont.fnt"), new TextureRegion(texture), false);
 
-		this.fontShader = new ShaderProgram(Gdx.files.internal("data/font.vert"), Gdx.files.internal("data/font.frag"));
+		this.fontShader = new ShaderProgram(AssetLoader.load("press_start/font.vert"), AssetLoader.load("press_start/font.frag"));
 		if (!fontShader.isCompiled()) {
 		    Gdx.app.error("fontShader", "compilation failed:\n" + fontShader.getLog());
 		}

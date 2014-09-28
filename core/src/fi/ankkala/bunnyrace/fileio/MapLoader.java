@@ -3,7 +3,6 @@ package fi.ankkala.bunnyrace.fileio;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -16,9 +15,12 @@ import fi.ankkala.bunnyrace.auto.AutoMaarittely;
 import fi.ankkala.bunnyrace.game.Pelimaailma;
 
 public class MapLoader {
+	
+	//Polku tason juureen
+	private FileHandle rootPath;
 
 	// Uuden tason nimi
-	private String mapname;
+	//private String mapname;
 
 	// Kenttäkohtaisia parametrejä
 	private int kuvienlkm;
@@ -33,12 +35,13 @@ public class MapLoader {
 
 	}
 
-	public String getMapName() {
-		return this.mapname;
-	}
+//	public String getMapName() {
+//		return this.mapname;
+//	}
 
 	public Pelimaailma loadMap(String mapname, AutoMaarittely auto) throws Exception {
-		this.mapname = mapname;
+		//this.mapname = mapname;
+		this.rootPath = AssetLoader.load("maps/" + mapname);
 		
 		lueParametrit();
 		
@@ -51,8 +54,9 @@ public class MapLoader {
 
 	private void lueParametrit() throws Exception {
 		this.maali = -1;
-		FileHandle file = Gdx.files.internal("data/maps/" + mapname
-				+ "/map.txt");
+		FileHandle file = rootPath.child("map.txt");
+		
+		
 
 		Scanner sc = new Scanner(file.readString());
 
@@ -92,8 +96,8 @@ public class MapLoader {
 
 	private ArrayList<Vector2> lataaHerneet() throws Exception {
 		ArrayList<Vector2> herneet = new ArrayList<Vector2>();
-		FileHandle file = Gdx.files.internal("data/maps/" + mapname
-				+ "/herneet.txt");
+		FileHandle file = rootPath.child("herneet.txt");
+		
 		Scanner sc = new Scanner(file.readString());
 		String rivi;
 		String[] luvut;
@@ -120,8 +124,7 @@ public class MapLoader {
 
 	private ArrayList<Vector2> lataaMansikat() throws Exception {
 		ArrayList<Vector2> mansikat = new ArrayList<Vector2>();
-		FileHandle file = Gdx.files.internal("data/maps/" + mapname
-				+ "/mansikat.txt");
+		FileHandle file = rootPath.child("mansikat.txt");
 		Scanner sc = new Scanner(file.readString());
 		String rivi;
 		String[] luvut;
@@ -150,8 +153,7 @@ public class MapLoader {
 
 	private ArrayList<Vector2> lataaPommit() throws Exception {
 		ArrayList<Vector2> pommit = new ArrayList<Vector2>();
-		FileHandle file = Gdx.files.internal("data/maps/" + mapname
-				+ "/pommit.txt");
+		FileHandle file = rootPath.child("pommit.txt");
 		Scanner sc = new Scanner(file.readString());
 		String rivi;
 		String[] luvut;
@@ -179,8 +181,7 @@ public class MapLoader {
 	private void lataaPinnanmuodot(World world) {
 		// 0. Create a loader for the file saved from the editor.
 		CustomBodyEditorLoader loader = new CustomBodyEditorLoader(
-				Gdx.files.internal("data/maps/" + mapname
-						+ "/collisionmap.json"));
+				rootPath.child("collisionmap.json"));
 		// BodyEditorLoader loader = new
 		// BodyEditorLoader(Gdx.files.internal("data/maps/mission1/mission1.json"));
 		// Create our body definition
@@ -202,15 +203,16 @@ public class MapLoader {
 
 	private Texture[] lataaMaisema() {
 		Texture[] palautus = new Texture[this.kuvienlkm];
-		String alkuosa = "data/maps/" + mapname + "/img/img_";
+		FileHandle imgHakemisto = rootPath.child("img");
+		String alkuosa = "img_";
 		String loppuosa = ".png";
 
 		for (int i = 0; i < kuvienlkm; i++) {
 			if (i < 10) {
-				palautus[i] = new Texture(Gdx.files.internal(alkuosa + "0" + i
+				palautus[i] = new Texture(imgHakemisto.child(alkuosa + "0" + i
 						+ loppuosa));
 			} else {
-				palautus[i] = new Texture(Gdx.files.internal(alkuosa + i
+				palautus[i] = new Texture(imgHakemisto.child(alkuosa + i
 						+ loppuosa));
 			}
 		}

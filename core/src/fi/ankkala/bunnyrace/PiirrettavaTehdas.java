@@ -1,5 +1,7 @@
 package fi.ankkala.bunnyrace;
 
+import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
@@ -8,6 +10,7 @@ import fi.ankkala.bunnyrace.auto.Rengas;
 import fi.ankkala.bunnyrace.auto.renkaat.HyvaRengas;
 import fi.ankkala.bunnyrace.fileio.MapLoader;
 import fi.ankkala.bunnyrace.fileio.TextureLoader;
+import fi.ankkala.bunnyrace.game.GameResult;
 import fi.ankkala.bunnyrace.game.Peli;
 import fi.ankkala.bunnyrace.game.Pelimaailma;
 import fi.ankkala.bunnyrace.gui.DebugDisplay;
@@ -16,6 +19,7 @@ import fi.ankkala.bunnyrace.gui.PelinPiirtaja;
 import fi.ankkala.bunnyrace.gui.Piirrettava;
 import fi.ankkala.bunnyrace.gui.valikko.Alkuvalikko;
 import fi.ankkala.bunnyrace.gui.valikko.Credits;
+import fi.ankkala.bunnyrace.gui.valikko.LevelCompleteValikko;
 import fi.ankkala.bunnyrace.gui.valikko.TasonValinta;
 import fi.ankkala.bunnyrace.gui.valikko.ValikonPiirtaja;
 import fi.ankkala.bunnyrace.gui.valikko.ValikonTausta;
@@ -68,8 +72,8 @@ public class PiirrettavaTehdas {
 				maailmanPiirtaja, hud, debugHUD);
 	}
 
-	public Piirrettava luoTasonValintaValikko() {
-		TasonValinta tasonvalinta = new TasonValinta(gc);
+	public Piirrettava luoTasonValintaValikko(Map<String, GameResult> huipputulokset) {
+		TasonValinta tasonvalinta = new TasonValinta(gc, huipputulokset);
 		ValikonPiirtaja palautus = new ValikonPiirtaja(tasonvalinta, tausta,
 				ylapalkki);
 		// TasonValinta palautus = new TasonValinta(gc, soundengine, tausta);
@@ -101,6 +105,13 @@ public class PiirrettavaTehdas {
 		Credits valikko = new Credits();
 		ValikonPiirtaja palautus = new ValikonPiirtaja(valikko, tausta,
 				ylapalkki);
+		Gdx.input.setInputProcessor((InputProcessor) palautus);
+		return palautus;
+	}
+
+	public Piirrettava luoLevelCompleteValikko(GameResult result) {
+		LevelCompleteValikko valikko = new LevelCompleteValikko(gc, result);
+		ValikonPiirtaja palautus = new ValikonPiirtaja(valikko, tausta, ylapalkki);
 		Gdx.input.setInputProcessor((InputProcessor) palautus);
 		return palautus;
 	}

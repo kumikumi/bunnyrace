@@ -1,4 +1,5 @@
 package fi.ankkala.bunnyrace.gui;
+
 import fi.ankkala.bunnyrace.game.Peli;
 
 public class PelinPiirtaja implements Piirrettava {
@@ -8,16 +9,17 @@ public class PelinPiirtaja implements Piirrettava {
 	private Piirrettava hud;
 	private Piirrettava debugHUD;
 	private Piirrettava fysiikka;
+	private Piirrettava endGameText;
 
 	public PelinPiirtaja(Peli peli, Piirrettava fysiikka,
-			Piirrettava maailmanpiirtaja, Piirrettava hud,
-			Piirrettava debugHUD) {
+			Piirrettava maailmanpiirtaja, Piirrettava hud, Piirrettava debugHUD) {
 		this.peli = peli;
 		this.fysiikka = fysiikka;
 		this.pauseScreen = new PauseScreen();
 		this.maailmanPiirtaja = maailmanpiirtaja;
 		this.hud = hud;
 		this.debugHUD = debugHUD;
+		this.endGameText = new EndGameText(peli);
 	}
 
 	@Override
@@ -25,17 +27,24 @@ public class PelinPiirtaja implements Piirrettava {
 		if (this.peli == null) {
 			return;
 		}
-		
+
 		switch (peli.getGameState()) {
 		case RUNNING:
 			peli.etene();
 			if (peli == null) {
-				//peli.etene() kutsuttaessa tarkistetaan, onko peli loppunut joten voi olla, ettei peliä enää ole tämän jälkeen.
+				// peli.etene() kutsuttaessa tarkistetaan, onko peli loppunut
+				// joten voi olla, ettei peliä enää ole tämän jälkeen.
 				return;
 			}
 
 			maailmanPiirtaja.piirra();
-			hud.piirra();
+
+			if (peli.isLevelComplete() || peli.isLevelFailed()) {
+				endGameText.piirra();
+			} else {
+				hud.piirra();
+			}
+			
 			if (peli.getDebug()) {
 				fysiikka.piirra();
 				debugHUD.piirra();
@@ -68,8 +77,8 @@ public class PelinPiirtaja implements Piirrettava {
 		// TODO Auto-generated method stub
 		this.debugHUD.destroy();
 		this.debugHUD = null;
-		//peli tuhoaa fysiikan
-		//this.fysiikka.destroy();
+		// peli tuhoaa fysiikan
+		// this.fysiikka.destroy();
 		this.hud.destroy();
 		this.hud = null;
 		this.maailmanPiirtaja.destroy();

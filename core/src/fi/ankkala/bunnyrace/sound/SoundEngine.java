@@ -20,21 +20,21 @@ private Random arpoja;
 		this.soundmap = new EnumMap<GameSound, Sound>(GameSound.class);
 		this.volumemap = new EnumMap<GameSound, Float>(GameSound.class);
 		this.musicmap = new EnumMap<GameMusic, Music>(GameMusic.class);
-		soundmap.put(GameSound.HERNE, Gdx.audio.newSound(Gdx.files.internal("data/sound/sound1.ogg")));
+		soundmap.put(GameSound.HERNE, Gdx.audio.newSound(Gdx.files.internal("thirdparty/sound/sound1.ogg")));
 		volumemap.put(GameSound.HERNE, 0.2f);
-		soundmap.put(GameSound.MANSIKKA, Gdx.audio.newSound(Gdx.files.internal("data/sound/mansikka.ogg")));
+		soundmap.put(GameSound.MANSIKKA, Gdx.audio.newSound(Gdx.files.internal("thirdparty/sound/mansikka.ogg")));
 		volumemap.put(GameSound.MANSIKKA, 0.6f);
-		soundmap.put(GameSound.POMMI, Gdx.audio.newSound(Gdx.files.internal("data/sound/pommi.ogg")));
+		soundmap.put(GameSound.POMMI, Gdx.audio.newSound(Gdx.files.internal("thirdparty/sound/pommi.ogg")));
 		volumemap.put(GameSound.POMMI, 0.9f);
 		
-		musicmap.put(GameMusic.MUSIIKKI1, Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Lachaim.mp3")));
+		musicmap.put(GameMusic.MUSIIKKI1, Gdx.audio.newMusic(Gdx.files.internal("thirdparty/sound/music/Lachaim.mp3")));
 		musicmap.get(GameMusic.MUSIIKKI1).setLooping(true);
-		musicmap.put(GameMusic.VALIKKO, Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Mariachi Snooze.mp3")));
+		musicmap.put(GameMusic.VALIKKO, Gdx.audio.newMusic(Gdx.files.internal("thirdparty/sound/music/Mariachi Snooze.mp3")));
 		musicmap.get(GameMusic.VALIKKO).setLooping(true);
-		musicmap.put(GameMusic.MUSIIKKI2, Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Easy Jam.mp3")));
+		musicmap.put(GameMusic.MUSIIKKI2, Gdx.audio.newMusic(Gdx.files.internal("thirdparty/sound/music/Easy Jam.mp3")));
 		musicmap.get(GameMusic.MUSIIKKI2).setLooping(true);
 		
-		musicmap.put(GameMusic.MUSIIKKI3, Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Slow Ska Game Loop.mp3")));
+		musicmap.put(GameMusic.MUSIIKKI3, Gdx.audio.newMusic(Gdx.files.internal("thirdparty/sound/music/Slow Ska Game Loop.mp3")));
 		musicmap.get(GameMusic.MUSIIKKI3).setLooping(true);
 		musicmap.get(GameMusic.MUSIIKKI3).setVolume(0.6f);
 		//this.music = Gdx.audio.newMusic(Gdx.files.internal("data/sound/music/Lachaim.mp3"));

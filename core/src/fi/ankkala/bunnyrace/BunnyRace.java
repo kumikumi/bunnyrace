@@ -33,7 +33,12 @@ public class BunnyRace implements ApplicationListener, Piirtaja {
 
 	@Override
 	public void resize(int width, int height) {
+		try{
 		this.piirrettava.resize(width, height);
+		} catch (Exception e) {
+			System.err.println("Koon muuttaminen kokoon (" + width + ", " + height + ") ei onnistunut");
+			e.printStackTrace();
+		}
 	}
 
 	@Override

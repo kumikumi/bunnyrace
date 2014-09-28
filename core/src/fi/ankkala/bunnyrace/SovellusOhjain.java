@@ -1,5 +1,9 @@
 package fi.ankkala.bunnyrace;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import fi.ankkala.bunnyrace.game.GameResult;
 import fi.ankkala.bunnyrace.sound.GameMusic;
 import fi.ankkala.bunnyrace.sound.SoundEngine;
 
@@ -9,7 +13,7 @@ public class SovellusOhjain implements GameControl {
 	private SoundEngine soundengine;
 	private boolean valikko;
 	private boolean credits;
-//	private Piirrettava edellinen;
+	private Map<String, GameResult> results;
 
 	public SovellusOhjain(Piirtaja br) {
 		this.piirtaja = br;
@@ -17,12 +21,29 @@ public class SovellusOhjain implements GameControl {
 		this.tehdas = new PiirrettavaTehdas(this, this.soundengine);
 		this.goToSplashScreen();
 		this.credits = false;
+		this.results = new HashMap<>();
 	}
 
 	@Override
-	public void levelComplete() {
+	public void levelComplete(GameResult result) {
 		System.out.println("Onneksi olkoon, taso läpi!");
-		this.goToLevelSelection();
+		if (results.containsKey(result.tasonNimi)) {
+			results.put(result.tasonNimi, results.get(result.tasonNimi).improve(result));
+		} else {
+			results.put(result.tasonNimi, result);
+		}
+		this.goToLevelCompleteScreen(result);
+	}
+	
+	private void goToLevelCompleteScreen(GameResult result) {
+		if (!valikko) {
+			this.soundengine.playMusic(GameMusic.VALIKKO);
+			valikko = true;
+		}
+		if (piirtaja.getPiirrettava() != null) {
+			piirtaja.getPiirrettava().destroy();
+		}
+		piirtaja.setPiirrettava(tehdas.luoLevelCompleteValikko(result));
 	}
 
 	@Override
@@ -34,7 +55,7 @@ public class SovellusOhjain implements GameControl {
 		if (piirtaja.getPiirrettava() != null) {
 			piirtaja.getPiirrettava().destroy();
 		}
-		piirtaja.setPiirrettava(tehdas.luoTasonValintaValikko());
+		piirtaja.setPiirrettava(tehdas.luoTasonValintaValikko(results));
 	}
 
 	@Override

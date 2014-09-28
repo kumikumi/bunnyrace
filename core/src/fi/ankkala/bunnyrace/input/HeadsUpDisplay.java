@@ -101,7 +101,7 @@ public class HeadsUpDisplay implements InputProcessor, Piirrettava {
 
 	public void piirra() {
 		batch.begin();
-
+		
 		batch.draw(endGameTexture, this.width - nuolenKoko - uiOffset,
 				this.height - nuolenKoko - uiOffset, nuolenKoko, nuolenKoko);
 

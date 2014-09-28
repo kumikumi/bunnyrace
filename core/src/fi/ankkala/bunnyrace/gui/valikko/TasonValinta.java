@@ -1,8 +1,10 @@
 package fi.ankkala.bunnyrace.gui.valikko;
 
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,18 +13,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 import fi.ankkala.bunnyrace.GameControl;
+import fi.ankkala.bunnyrace.fileio.AssetLoader;
 import fi.ankkala.bunnyrace.fileio.MapLister;
+import fi.ankkala.bunnyrace.game.GameResult;
 import fi.ankkala.bunnyrace.gui.kscroll.KScroller;
 
 public class TasonValinta implements Valikko {
 
+	private Map<String, GameResult> huipputulokset;
+	
 	private ShaderProgram fontShader;
 
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private float width;
 	private float height;
-//	private TextureRegion inactive;
+	// private TextureRegion inactive;
 	private TextureRegion active;
 	private TextureRegion error;
 	private TextureRegion kaytettava;
@@ -63,8 +69,9 @@ public class TasonValinta implements Valikko {
 	//
 	// }
 
-	public TasonValinta(GameControl br) {
+	public TasonValinta(GameControl br, Map<String, GameResult> huipputulokset) {
 
+		this.huipputulokset = huipputulokset;
 		MapLister ml = new MapLister();
 		this.lista = ml.getList();
 		this.virheelliset = ml.getVirheelliset();
@@ -78,14 +85,15 @@ public class TasonValinta implements Valikko {
 		this.batch = new SpriteBatch();
 
 		Texture texture = new Texture(
-				Gdx.files.internal("data/press_start.png"), true);
+				AssetLoader.load("press_start/press_start.png"), true);
 		texture.setFilter(TextureFilter.MipMapLinearNearest,
 				TextureFilter.Linear);
-		this.font = new BitmapFont(Gdx.files.internal("data/press_start.fnt"),
+		this.font = new BitmapFont(
+				AssetLoader.load(("press_start/press_start.fnt")),
 				new TextureRegion(texture), false);
 		this.fontShader = new ShaderProgram(
-				Gdx.files.internal("data/font.vert"),
-				Gdx.files.internal("data/font.frag"));
+				AssetLoader.load("press_start/font.vert"),
+				AssetLoader.load("press_start/font.frag"));
 		if (!fontShader.isCompiled()) {
 			Gdx.app.error("fontShader",
 					"compilation failed:\n" + fontShader.getLog());
@@ -113,8 +121,10 @@ public class TasonValinta implements Valikko {
 		this.napit.dispose();
 		this.napit = null;
 
-		this.porkkanaTexture.dispose();
-		this.porkkanaTexture = null;
+		if (porkkanaTexture != null) {
+			this.porkkanaTexture.dispose();
+			this.porkkanaTexture = null;
+		}
 
 		this.scroller = null;
 
@@ -159,13 +169,18 @@ public class TasonValinta implements Valikko {
 	// }
 
 	private void lataaTekstuuri() {
-		this.napit = new Texture(Gdx.files.internal("data/menubuttons.png"));
-//		this.inactive = new TextureRegion(napit, 0, 0, 32, 8);
+		this.napit = new Texture(AssetLoader.load("menubuttons.png"));
+		// this.inactive = new TextureRegion(napit, 0, 0, 32, 8);
 		this.active = new TextureRegion(napit, 0, 8, 32, 8);
 		this.error = new TextureRegion(napit, 0, 16, 32, 8);
-		this.porkkanaTexture = new Texture(
-				Gdx.files.internal("data/valikkoporkkana.png"));
-		this.porkkana = new TextureRegion(porkkanaTexture);
+		FileHandle file = AssetLoader.load("valikkoporkkana.png");
+		if (!file.exists()) {
+			this.porkkana = new TextureRegion(napit, 0, 0, 32, 8);
+		} else {
+			this.porkkanaTexture = new Texture(
+					AssetLoader.load("valikkoporkkana.png"));
+			this.porkkana = new TextureRegion(porkkanaTexture);
+		}
 	}
 
 	public void piirra() {
@@ -204,8 +219,7 @@ public class TasonValinta implements Valikko {
 
 			batch.setShader(fontShader);
 
-			this.tekstinPaikkaY = this.height
-					- tyhjaTilaYlhaalla
+			this.tekstinPaikkaY = this.height - tyhjaTilaYlhaalla
 					- (palkinOffsetY * (i + 1) - skrollausY - tekstinOffsetY);
 			// this.tekstinPaikkaY = this.height - palkinOffsetY * (i + 1) +
 			// skrollausY;
@@ -213,7 +227,14 @@ public class TasonValinta implements Valikko {
 			// - palkinOffsetY * (i + 1) + 0.7f * palkinKorkeus;
 
 			font.draw(batch, lista.get(i), tekstinOffsetX, tekstinPaikkaY);
+			
+			if (huipputulokset.containsKey(lista.get(i))) {
+				font.draw(batch, "PELATTU", tekstinOffsetX, tekstinPaikkaY);
+			}
+			
 			batch.setShader(null);
+			
+
 		}
 
 		batch.end();

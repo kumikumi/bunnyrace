@@ -1,6 +1,5 @@
 package fi.ankkala.bunnyrace.fileio;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -70,8 +69,10 @@ public class TextureLoader {
 	}
 
 	public TextureLoader() {
-		this.texture1 = new Texture(Gdx.files.internal("data/texture1.png"));
-		this.tausta = new Texture(Gdx.files.internal("data/tausta3.png"));
+		//this.texture1 = new Texture(Gdx.files.internal("proprietary/texture1.png"));
+		this.texture1 = new Texture(AssetLoader.load("texture1.png"));
+		//this.tausta = new Texture(Gdx.files.internal("proprietary/tausta3.png"));
+		this.tausta = new Texture(AssetLoader.load("tausta3.png"));
 		this.pommiTexture = new TextureRegion(texture1, 512, 0, 128, 128);
 		TextureRegion e1 = new TextureRegion(texture1, 640, 0, 128, 128);
 		TextureRegion e2 = new TextureRegion(texture1, 768, 0, 128, 128);

@@ -1,16 +1,16 @@
 package fi.ankkala.bunnyrace.game;
 
 public class Kello {
-	long aika_alussa;
+	private long aika_alussa;
 	
-	long aikamillisekunteina;
-	long kymmenesosat;
-	long sekunnit;
-	long minuutit;
+	private long aikamillisekunteina;
+	private long kymmenesosat;
+	private long sekunnit;
+	private long minuutit;
 	
-	String kymmenesosatTekstina;
-	String sekunnitTekstina;
-	String minuutitTekstina;
+	private String kymmenesosatTekstina;
+	private String sekunnitTekstina;
+	private String minuutitTekstina;
 	
 	public Kello() {
 //		System.out.println("Kello luotiin");

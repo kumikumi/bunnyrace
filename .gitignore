@@ -58,3 +58,6 @@ nb-configuration.xml
 
 .gradle
 build/
+
+android/assets/proprietary
+android/assets/thirdparty

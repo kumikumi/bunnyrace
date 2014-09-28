@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 import fi.ankkala.bunnyrace.auto.PorkkanaAuto;
@@ -27,7 +26,8 @@ public class MapLister {
 		virheelliset.removeAll(virheelliset);
 		this.loader = new MapLoader();
 		
-		FileHandle file = Gdx.files.internal("data/maps/maplist.txt");
+		//FileHandle file = Gdx.files.internal("data/maps/maplist.txt");
+		FileHandle file = AssetLoader.load("maps/maplist.txt");
 
 		//System.out.println(file.readString());
 		Scanner sc = new Scanner(file.readString());

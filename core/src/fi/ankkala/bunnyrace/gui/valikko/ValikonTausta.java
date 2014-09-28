@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import fi.ankkala.bunnyrace.fileio.AssetLoader;
 import fi.ankkala.bunnyrace.gui.Piirrettava;
 
 public class ValikonTausta implements Piirrettava{
@@ -28,11 +29,13 @@ public class ValikonTausta implements Piirrettava{
 	
 	public ValikonTausta() {
 		this.batch = new SpriteBatch();
-		this.tausta = new Texture(Gdx.files.internal("data/valikontausta.png"));
-		this.pilvet = new Texture(Gdx.files.internal("data/pilvet.png"));
-		Texture aurinko = new Texture(Gdx.files.internal("data/aurinko.png"));
-		this.auringonKeskiosa = new TextureRegion(aurinko, 0, 0, 68, 61);
-		this.auringonSateet = new TextureRegion(aurinko, 68, 0, 68, 61);
+		this.tausta = new Texture(AssetLoader.load("valikontausta.png"));
+		this.pilvet = new Texture(AssetLoader.load("pilvet.png"));
+		Texture aurinko = new Texture(AssetLoader.load("aurinko.png"));
+		this.auringonKeskiosa = new TextureRegion(aurinko, 0, 0, aurinko.getWidth()/2, aurinko.getHeight());
+		this.auringonSateet = new TextureRegion(aurinko, aurinko.getWidth()/2, 0, aurinko.getWidth()/2, aurinko.getHeight());
+//		this.auringonKeskiosa = new TextureRegion(aurinko, 0, 0, 68, 61);
+//		this.auringonSateet = new TextureRegion(aurinko, 68, 0, 68, 61);
 		//TextureRegion e1 = new TextureRegion(texture1, 640, 0, 128, 128);
 		
 		this.leveys = Gdx.graphics.getWidth();
